@@ -20,7 +20,6 @@ const api = SpotifyApi.withClientCredentials(
 async function getAccessToken() {
   const response = await api.authenticate();
   const accessToken = response.accessToken.access_token;
-  console.log("Access Token: ", accessToken);
   return accessToken;
 };
 
@@ -29,7 +28,6 @@ async function getCategory(accessToken: string) {
         headers: { 'Authorization': `Bearer ${accessToken}` }
       });
   const data = await response.json();
-  console.log("Category: ", data)
   return data;
 };
 
@@ -41,12 +39,29 @@ async function getPlaylists(accessToken: string, categoryId: string) {
   return data;
 }
 
+async function chooseRamdomPlaylist(playlists: any) {
+  const randomIndex = Math.floor(Math.random() * playlists.items.length);
+  console.log("choosing playlist: ", playlists.items[randomIndex].name);
+  return playlists.items[randomIndex];
+}
+
+async function getTracks(accessToken: string, playlistId: string) {
+  const response = await fetch(`${routes.ROOT_API_URL}${routes.GET_TRACKS(playlistId)}`, {
+    headers: { 'Authorization': `Bearer ${accessToken}` }
+  });
+  const data = await response.json();
+  return data;
+}
+
 async function init() {
   const token = await getAccessToken();
   const category = await getCategory(token);
-  console.log(category)
   const playlists = await getPlaylists(token, category.id);
-  console.log(playlists);
+  const playlist = await chooseRamdomPlaylist(playlists.playlists);
+  const tracks = await getTracks(token, playlist.id);
+  tracks.items.forEach((track: any) => {
+    console.log(track.track.name);
+  });
 }
 
 app.listen(port, () => {
