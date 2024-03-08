@@ -1,4 +1,5 @@
 import routes from '../config/routes';
+import { spotifyFetchWrapper } from '../utils';
 
 export async function getAccessToken(api: any) {
   const response = await api.authenticate();
@@ -7,25 +8,13 @@ export async function getAccessToken(api: any) {
 };
 
 export async function getCategory(accessToken: string) {
-  const response = await fetch(`${routes.SPOTIFY_ROOT_URL}${routes.SPOTIFY_GET_CATEGORY}`, {
-        headers: { 'Authorization': `Bearer ${accessToken}` }
-      });
-  const data = await response.json();
-  return data;
+  return spotifyFetchWrapper(routes.SPOTIFY_GET_CATEGORY, accessToken);
 };
 
 export async function getPlaylists(accessToken: string, categoryId: string) {
-  const response = await fetch(`${routes.SPOTIFY_ROOT_URL}${routes.SPOTIFY_GET_PLAYLISTS(categoryId)}`, {
-    headers: { 'Authorization': `Bearer ${accessToken}` }
-  });
-  const data = await response.json();
-  return data;
+  return spotifyFetchWrapper(routes.SPOTIFY_GET_PLAYLISTS(categoryId), accessToken);
 }
 
 export async function getTracks(accessToken: string, playlistId: string) {
-  const response = await fetch(`${routes.SPOTIFY_ROOT_URL}${routes.SPOTIFY_GET_TRACKS(playlistId)}`, {
-    headers: { 'Authorization': `Bearer ${accessToken}` }
-  });
-  const data = await response.json();
-  return data;
+  return spotifyFetchWrapper(routes.SPOTIFY_GET_TRACKS(playlistId), accessToken);
 }
