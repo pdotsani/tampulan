@@ -2,7 +2,6 @@ import routes from '../config/routes';
 
 export function chooseRamdomPlaylist(playlists: any) {
   const randomIndex = Math.floor(Math.random() * playlists.items.length);
-  console.log("choosing playlist: ", playlists.items[randomIndex].name);
   return playlists.items[randomIndex];
 };
 

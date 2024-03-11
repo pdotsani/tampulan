@@ -2,3 +2,6 @@ dist
 node_modules
 .env
 package-lock.json
+combined.log
+error.log
+logfile.log
