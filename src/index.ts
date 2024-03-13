@@ -6,6 +6,7 @@ import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { chooseRamdomPlaylist, createPayload, shuffleTracks } from './utils';
 import { getAccessToken, getCategory, getPlaylists, getTracks } from './spotify';
 import routes from './config/routes';
+import auth from './auth';
 
 dotenv.config();
 
@@ -22,8 +23,8 @@ const api = SpotifyApi.withClientCredentials(
   process.env.SPOTIFY_CLIENT_SECRET
 );
 
-app.get(routes.GET_TRACKS, async (req, res) => {
-  log.info(`${req.method} - ${req.originalUrl}`);
+app.get(routes.GET_TRACKS, auth, async (req, res) => {
+  log.info(`${req.method} - ${req.originalUrl} - ${req.headers['x-forwarded-for'] || req.socket.remoteAddress} - ${req.get('User-Agent')}`);
 
   const token = await getAccessToken(api);
   const category = await getCategory(token);
