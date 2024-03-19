@@ -25,3 +25,5 @@ export default {
     });
   }
 }
+
+export { routeLogger } from './route';
