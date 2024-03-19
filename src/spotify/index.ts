@@ -3,19 +3,22 @@ import routes from '../config/routes';
 import { spotifyFetchWrapper } from '../utils';
 
 export default class {
-  api = SpotifyApi.withClientCredentials(
-    process.env.SPOTIFY_CLIENT_ID,
-    process.env.SPOTIFY_CLIENT_SECRET
-  );
-  
+  private api: SpotifyApi;
   private _token: string | undefined;
   
   private setToken(accessToken: string) {
     this._token = accessToken;
   }
-
+  
   private getToken() {
     return this._token;
+  }
+  
+  constructor() {
+    this.api = SpotifyApi.withClientCredentials(
+      process.env.SPOTIFY_CLIENT_ID,
+      process.env.SPOTIFY_CLIENT_SECRET
+    );
   }
 
   async getAccessToken() {
