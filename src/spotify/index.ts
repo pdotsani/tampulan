@@ -1,5 +1,5 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import routes from '../config/routes';
+import routes from '../config';
 import { spotifyFetchWrapper } from '../utils';
 
 export default class {
