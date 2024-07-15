@@ -12,11 +12,11 @@ function createPayload(shuffledTracks: any) {
   }
 };
 
-async function spotifyFetchWrapper(url: string, accessToken: string) {
+async function spotifyFetchWrapper<T>(url: string, accessToken: string) {
   const response = await fetch(`${routes.SPOTIFY_ROOT_URL}${url}`, {
     headers: { 'Authorization': `Bearer ${accessToken}` }
   });
-  const data = await response.json();
+  const data = await response.json() as T;
   return data;
 }
 
