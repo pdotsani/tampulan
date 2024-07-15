@@ -1,6 +1,7 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import routes from '../config';
 import { spotifyFetchWrapper } from '../utils';
+import { Categories, Playlists, Tracks } from '../types';
 
 export default class {
   private api: SpotifyApi;
@@ -28,14 +29,14 @@ export default class {
   }
 
   async getCategory() {
-    return spotifyFetchWrapper(routes.SPOTIFY_GET_CATEGORY, this.getToken());
+    return spotifyFetchWrapper<Categories>(routes.SPOTIFY_GET_CATEGORY, this.getToken());
   }
 
   async getPlaylists(categoryId: string) {
-    return spotifyFetchWrapper(routes.SPOTIFY_GET_PLAYLISTS(categoryId), this.getToken());
+    return spotifyFetchWrapper<Playlists>(routes.SPOTIFY_GET_PLAYLISTS(categoryId), this.getToken());
   }
 
   async getTracks(playlistId: string) {
-    return spotifyFetchWrapper(routes.SPOTIFY_GET_TRACKS(playlistId), this.getToken());
+    return spotifyFetchWrapper<Tracks>(routes.SPOTIFY_GET_TRACKS(playlistId), this.getToken());
   }  
 }
